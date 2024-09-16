@@ -1,7 +1,9 @@
 import "./globals.css"
 import type { Metadata, Viewport } from "next"
 import { M_PLUS_1 } from "next/font/google"
+import { createClient } from "@/utils/supabase/server"
 import Navigation from "@/components/navigation/Navigation"
+import ToastProvider from "@/components/providers/ToastProvider"
 
 const mPlus1 = M_PLUS_1({
   weight: ["400", "700", "900"],
@@ -26,11 +28,17 @@ interface RootLayoutProps {
 
 // ルートレイアウト
 const RootLayout = async ({ children }: RootLayoutProps) => {
+  const supabase = createClient()
+  const { data } = await supabase.auth.getUser()
+  const user = data?.user
+
+
   return (
     <html lang="ja">
       <body className={mPlus1.className}>
+      <ToastProvider />
         <div className="flex min-h-screen flex-col">
-          <Navigation />
+        <Navigation user={user} />
 
           <main className="flex-1">{children}</main>
 
