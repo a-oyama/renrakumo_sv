@@ -1,3 +1,6 @@
+// サインアップ・ログインページに共通レイアウト適用
+// childrenで各ページ挿入
+
 interface AuthLayoutProps {
     children: React.ReactNode
   }

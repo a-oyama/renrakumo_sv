@@ -1,3 +1,5 @@
+// 全ページでsupabase認証セッションの更新し保持
+
 import { type NextRequest } from "next/server"
 import { updateSession } from "./utils/supabase/middleware"
 

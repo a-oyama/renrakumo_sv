@@ -1,3 +1,5 @@
+// サインアップページ
+
 import { redirect } from "next/navigation"
 import { createClient } from "@/utils/supabase/server"
 import Signup from "@/components/auth/Signup"

@@ -1,3 +1,5 @@
+// supabaseアクセス設定(クライアント)
+
 import { createBrowserClient } from '@supabase/ssr'
 
 export function createClient() {

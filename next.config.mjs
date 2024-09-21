@@ -1,3 +1,5 @@
+//supabaseからの画像取得許可
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {

@@ -1,6 +1,7 @@
+// エラー画面
+
 "use client"
 
-// エラー画面
 const Error = () => {
   return (
     <div>

@@ -1,3 +1,5 @@
+// ローディング画面(アニメーション)
+
 import { Loader2 } from "lucide-react"
 
 // ローディング

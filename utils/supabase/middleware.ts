@@ -1,3 +1,5 @@
+// 各リクエスト時にsupabase認証情報を更新
+
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 

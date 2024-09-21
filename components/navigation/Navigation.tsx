@@ -1,3 +1,5 @@
+// ヘッダーに表示する内容
+
 "use client"
 
 import { User } from "@supabase/supabase-js"
@@ -10,11 +12,12 @@ interface NavigationProps {
   user: User | null
 }
 
-// ナビゲーション
+// ナビゲーション(userを受け取りログイン状態に応じて表示リンク変更)
 const Navigation = ({ user }: NavigationProps) => {
   const router = useRouter()
   const supabase = createClient()
 
+  // ログアウト時にsubpabaseセッションアウトしloginページに戻す
   const handleLogout = async () => {
     if (!window.confirm("ログアウトしますが、宜しいですか？")) {
       return
@@ -32,6 +35,7 @@ const Navigation = ({ user }: NavigationProps) => {
           Renraku
         </Link>
 
+        {/* user引継ぎの場合にリンク表示 */}
         <div className="text-sm font-bold">
           {user ? (
             <div className="flex items-center space-x-5">
