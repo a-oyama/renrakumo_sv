@@ -9,6 +9,7 @@ const SignupPage = async () => {
   const { data } = await supabase.auth.getUser()
   const user = data?.user
 
+  // ログイン済はトップ，してないはサインアップページへ
   if (user) {
     redirect("/")
   }

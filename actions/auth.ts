@@ -1,3 +1,5 @@
+//　サインアップ処理時のサーバーサイドアクション
+
 "use server"
 
 import { SignupSchema } from "@/schemas"
@@ -9,7 +11,7 @@ export const signup = async (values: z.infer<typeof SignupSchema>) => {
   try {
     const supabase = createClient()
 
-    // アカウント作成
+    // アカウント作成し，メール送信する
     const { data, error: signupError } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,

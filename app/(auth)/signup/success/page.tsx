@@ -1,3 +1,5 @@
+// 確認メール送信時メッセージ
+
 const SignupSuccessPage = () => {
     return (
       <div className="w-[500px] bg-white p-5 rounded-xl border">

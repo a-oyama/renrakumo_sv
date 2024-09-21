@@ -1,3 +1,5 @@
+// サインアップ時の入力バリデーション
+
 import { z } from "zod"
 
 export const SignupSchema = z.object({

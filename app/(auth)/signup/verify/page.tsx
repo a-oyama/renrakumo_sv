@@ -1,3 +1,5 @@
+// 確認メールのリンク先設定
+
 "use client"
 
 import { Button } from "@/components/ui/button"
