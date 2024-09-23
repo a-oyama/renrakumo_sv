@@ -91,11 +91,11 @@ const Profile = ({ profile }: ProfileProps) => {
   // 画像アップロード
   const onChangeImage = (imageList: ImageListType) => {
     const file = imageList[0]?.file
-    const maxFileSize = 4 * 1024 * 1024
+    const maxFileSize = 2 * 1024 * 1024
 
     // ファイルサイズチェック
     if (file && file.size > maxFileSize) {
-      setError("ファイルサイズは4MBを超えることはできません")
+      setError("ファイルサイズは2MBを超えることはできません")
       return
     }
 
@@ -128,7 +128,7 @@ const Profile = ({ profile }: ProfileProps) => {
                     ファイル形式：jpg / jpeg / png
                   </div>
                   <div className="text-gray-400 text-xs">
-                    ファイルサイズ：4MBまで
+                    ファイルサイズ：2MBまで
                   </div>
                 </button>
               )}
@@ -178,7 +178,7 @@ const Profile = ({ profile }: ProfileProps) => {
                 <FormLabel className="font-bold">名前</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="田中太郎"
+                    placeholder=""
                     {...field}
                     disabled={isPending}
                   />
@@ -190,7 +190,7 @@ const Profile = ({ profile }: ProfileProps) => {
 
           <FormField
             control={form.control}
-            name=""
+            name="introduce"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-bold">自己紹介</FormLabel>
