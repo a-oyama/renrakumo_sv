@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { Suspense } from "react"
-import Password from "@/components/settings/Password"
+import Password from "@/components/auth/Password"
 import Loading from "@/app/loading"
 
 const PasswordPage = async () => {

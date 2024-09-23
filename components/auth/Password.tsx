@@ -1,3 +1,5 @@
+//
+
 "use client"
 
 import { useState, useTransition } from "react"
@@ -63,7 +65,7 @@ const Password = () => {
   }
 
   return (
-    <div className="w-[500px] p-5 rounded-xl border">
+    <div className="">
       <div className="text-primary text-xl font-bold text-center border-b border-black pb-5 mb-5 mt-3">
         パスワード設定
       </div>
@@ -113,7 +115,7 @@ const Password = () => {
                   <div className="relative">
                     <Input
                       type={passwordVisibility2 ? "text" : "password"}
-                      placeholder="********"
+                      placeholder=""
                       {...field}
                       disabled={isPending}
                     />
