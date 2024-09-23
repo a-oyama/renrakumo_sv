@@ -91,7 +91,7 @@ const Email = ({ email }: EmailProps) => {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="example@fullstackchannel.com"
+                    placeholder=""
                     {...field}
                     disabled={isPending}
                   />
