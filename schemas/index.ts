@@ -52,3 +52,10 @@ export const PasswordSchema = z
     name: z.string().min(1, { message: "名前を入力してください" }),
     introduce: z.string().optional(),
   })
+
+// メールアドレス変更用
+  export const EmailSchema = z.object({
+    email: z.string().email({
+      message: "メールアドレスを入力してください",
+    }),
+  })
