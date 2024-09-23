@@ -34,7 +34,9 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="mx-auto max-w-screen-md">
+      {/* グリッド内コンテンツアイテム数 */}
       <div className="grid grid-cols-3 gap-3">
+        {/* 縦並び */}
         <div className="col-span-1 space-y-2">
           {subNavigation.map((item, index) => (
             <Button
