@@ -1,3 +1,5 @@
+'use client'
+
 // メインページ
 import React from 'react'
 import FullCalendar from "@fullcalendar/react"
@@ -8,7 +10,7 @@ const MainPage = () => {
       <div>
         <div>メインページ</div>
         <div>
-          
+
         <FullCalendar
          plugins={[dayGridPlugin]}
          initialView="dayGridMonth" />
