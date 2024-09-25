@@ -1,22 +1,22 @@
 'use client'
-
 // メインページ
-import React from 'react'
+import React from "react"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from '@fullcalendar/daygrid'
 
 const MainPage = () => {
-    return (
+  return (
+    <div>
       <div>
-        <div>メインページ</div>
-        <div>
-
-        <FullCalendar
-         plugins={[dayGridPlugin]}
-         initialView="dayGridMonth" />
-        </div>
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        height="auto"
+        locale="jp"
+         />
       </div>
-    )
-  }
-  
-  export default MainPage
+    </div>
+  )
+}
+
+export default MainPage
