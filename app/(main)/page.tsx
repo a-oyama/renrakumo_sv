@@ -1,4 +1,5 @@
 // メインページ
+
 const MainPage = () => {
     return (
       <div>
