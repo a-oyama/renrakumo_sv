@@ -11,6 +11,7 @@ import allLocales from '@fullcalendar/core/locales-all'
 // カレンダーをクリックできるようにする
 import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
+import { EventClickArg } from "@fullcalendar/core/index.js"
 // イベント取得
 import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
 import { useCallback, useState } from "react"
@@ -29,7 +30,7 @@ const MainPage = () => {
 // 予定の入力(promit()でダイアログ表示,trimで表示調整,
 // calendarApi = selectInfo.view.calendar)
   const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-    let title = prompt("イベントのタイトルを入力してください")?.trim();
+    let title = prompt("イベント名を入力してください")?.trim();
     let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
     if (title) {
@@ -44,6 +45,15 @@ const MainPage = () => {
     
     }
   }, []);
+
+// 予定の削除(Y/Nをwindow.confirm())
+const handleEventClick = useCallback((clickInfo: EventClickArg) => {
+  if (
+    window.confirm(`このイベント「${clickInfo.event.title}」を削除しますか`)
+  ) {
+    clickInfo.event.remove();
+  }
+}, []);
 
   return (
     <div>
@@ -60,6 +70,8 @@ const MainPage = () => {
         }
         selectable={true}
         select={handleDateSelect}
+        editable={true}
+        eventClick={handleEventClick}
          />
       </div>
     </div>
