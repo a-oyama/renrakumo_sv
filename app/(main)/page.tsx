@@ -9,6 +9,7 @@ import { DayCellContentArg } from "@fullcalendar/core/index.js"
 // 日本語カレンダー
 import allLocales from '@fullcalendar/core/locales-all'
 // カレンダーをクリックできるようにする
+// スマホは長押し(selectLongPressDelay)
 import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
