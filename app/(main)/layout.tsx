@@ -1,3 +1,5 @@
+// メインレイアウト
+
 interface MainLayoutProps {
     children: React.ReactNode
   }
