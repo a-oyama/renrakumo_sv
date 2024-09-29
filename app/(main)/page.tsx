@@ -37,7 +37,7 @@ const MainPage = () => {
     if (title) {
 
       calendarApi.addEvent({
-        id: createEventId(),
+        event_id: createEventId(),
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
