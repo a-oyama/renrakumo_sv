@@ -14,7 +14,8 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
 // イベント取得
-import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
+//import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
+import { createEventId } from "@/utils/supabase/event"
 import { useCallback, useState } from "react"
 import { EventApi } from "@fullcalendar/core/index.js"
 
@@ -41,7 +42,8 @@ const MainPage = () => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
+//        allDay: selectInfo.allDay,
+        allDay: true,
       });
     
     }
@@ -62,7 +64,7 @@ const handleEventClick = useCallback((clickInfo: EventClickArg) => {
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        initialEvents={INITIAL_EVENTS}
+//        initialEvents={INITIAL_EVENTS}
         height="auto"
         locales={allLocales}
         locale="jp"
