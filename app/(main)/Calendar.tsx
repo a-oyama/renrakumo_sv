@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import FullCalendar, { EventInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { supabase } from './supabaseClient'; // Supabaseクライアントをインポート
+//import { supabase } from './supabaseClient'; // Supabaseクライアントをインポート
+import { createClient } from '@/utils/supabase/server';
 
-const Calendar: React.FC = () => {
+const Calendar = () => {
   const [events, setEvents] = useState<EventInput[]>([]);
 
   // Supabaseからイベントを取得する
