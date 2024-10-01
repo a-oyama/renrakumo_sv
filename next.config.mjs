@@ -9,8 +9,6 @@ const nextConfig = {
             protocol: 'https',
 //            hostname: 'https://vyejpflxsreajoxeryck.supabase.co',
             hostname: 'vyejpflxsreajoxeryck.supabase.co',
-
-            port: '',
           },
         ],
       },
