@@ -6,3 +6,11 @@ export interface ProfileType {
     introduce: string | null
     avatar_url: string | null
   }
+
+  // カレンダースケジュール
+  export interface Event {
+    id: string;
+    title: string;
+    start_time: string;
+    end_time: string | null;
+  }
