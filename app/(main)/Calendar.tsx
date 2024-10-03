@@ -1,76 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import FullCalendar, { EventInput } from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-//import { supabase } from './supabaseClient'; // Supabaseクライアントをインポート
-import { createClient } from '@/utils/supabase/server';
+import FullCalendar from "@fullcalendar/react"
+// 月カレンダー
+import dayGridPlugin from '@fullcalendar/daygrid'
+// 日を消す
+import { DayCellContentArg } from "@fullcalendar/core/index.js"
+// 日本語カレンダー
+import allLocales from '@fullcalendar/core/locales-all'
+// カレンダーをクリックできるようにする
+// スマホは長押し(selectLongPressDelay)
+import interactionPlugin from "@fullcalendar/interaction"
+import { DateSelectArg } from "@fullcalendar/core/index.js"
+import { EventClickArg } from "@fullcalendar/core/index.js"
+// イベント取得
+//import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
+import { createEventId } from "@/utils/supabase/event"
+import { useCallback, useState } from "react"
+import { EventApi } from "@fullcalendar/core/index.js"
 
 const Calendar = () => {
-  const [events, setEvents] = useState<EventInput[]>([]);
-
-  // Supabaseからイベントを取得する
-  const fetchEvents = async () => {
-    const { data, error } = await supabase
-      .from('schedules')
-      .select('*');
-    
-    if (error) {
-      console.error('Error fetching events:', error);
-    } else {
-      const formattedEvents = data.map((event) => ({
-        id: event.id,
-        title: event.title,
-        start: event.start_time,
-        end: event.end_time,
-      }));
-      setEvents(formattedEvents);
-    }
-  };
-
-  useEffect(() => {
-    fetchEvents();
+  // イベントオブジェクトの取得(予定データが初期化＆変更時に取得)
+  const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
+  const handleEvents = useCallback((events: EventApi[]) => {
+    console.log("events:", events);  // 確認用
+    setCurrentEvents(events);
   }, []);
 
-  // イベントを追加するハンドラ
-  const handleDateSelect = async (selectInfo: any) => {
-    let title = prompt('イベントのタイトルを入力してください');
+// 予定の入力(promit()でダイアログ表示,trimで表示調整,
+// calendarApi = selectInfo.view.calendar)
+  const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
+    let title = prompt("イベント名を入力してください")?.trim();
+    let calendarApi = selectInfo.view.calendar;
+    calendarApi.unselect();
     if (title) {
-      let calendarApi = selectInfo.view.calendar;
-      calendarApi.unselect(); // カレンダーの選択をクリア
 
-      // Supabaseにイベントを挿入
-      const { data, error } = await supabase
-        .from('schedules')
-        .insert([
-          { title, start_time: selectInfo.startStr, end_time: selectInfo.endStr }
-        ]);
-
-      if (error) {
-        console.error('Error adding event:', error);
-      } else {
-        // カレンダーに新しいイベントを追加
-        calendarApi.addEvent({
-          id: data[0].id,
-          title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-        });
-      }
+      calendarApi.addEvent({
+        event_id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+//        allDay: selectInfo.allDay,
+        allDay: true,
+      });
+    
     }
-  };
+  }, []);
+
+// 予定の削除(Y/Nをwindow.confirm())
+const handleEventClick = useCallback((clickInfo: EventClickArg) => {
+  if (
+    window.confirm(`このイベント「${clickInfo.event.title}」を削除しますか`)
+  ) {
+    clickInfo.event.remove();
+  }
+}, []);
 
   return (
     <div>
-      <h2>スケジュールカレンダー</h2>
+      <div>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        events={events}
+//        initialEvents={INITIAL_EVENTS}
+        height="auto"
+        locales={allLocales}
+        locale="jp"
+        dayCellContent={(event: DayCellContentArg) =>
+          (event.dayNumberText = event.dayNumberText.replace("日", ""))
+        }
         selectable={true}
-        select={handleDateSelect} // 日付選択時のハンドラ
-      />
+        select={handleDateSelect}
+        editable={true}
+        eventClick={handleEventClick}
+         />
+      </div>
     </div>
-  );
-};
+  )
+}
+
 
 export default Calendar;
