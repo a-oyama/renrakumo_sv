@@ -1,5 +1,8 @@
 
 import { useCallback, useState, useEffect } from "react"
+import { createClient } from "@/utils/supabase/server"
+
+
 import FullCalendar from "@fullcalendar/react"
 // 月カレンダー
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -17,6 +20,9 @@ import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
 
 
 const Calendar = () => {
+
+  //const supabase = createClient()
+
   // イベントオブジェクトの取得(予定データが初期化＆変更時に取得)
   const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
   const handleEvents = useCallback((events: EventApi[]) => {
@@ -26,10 +32,12 @@ const Calendar = () => {
 
 // 予定の入力(promit()でダイアログ表示,trimで表示調整,
 // calendarApi = selectInfo.view.calendar)
+
   const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-    let title = prompt("イベント名を入力してください")?.trim();
-    let calendarApi = selectInfo.view.calendar;
+    const title = prompt("イベント名を入力してください")?.trim();
+    const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
+
     if (title) {
 
       calendarApi.addEvent({
@@ -40,9 +48,9 @@ const Calendar = () => {
         allDay: selectInfo.allDay,
 //        allDay: true,
       });
-    
     }
-  }, []);
+  },
+[]);
 
 // 予定の削除(Y/Nをwindow.confirm())
 const handleEventClick = useCallback((clickInfo: EventClickArg) => {
