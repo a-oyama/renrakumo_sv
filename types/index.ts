@@ -11,6 +11,6 @@ export interface ProfileType {
   export interface Event {
     id: string;
     title: string;
-    start_time: string;
-    end_time: string | null;
+    start: string;
+    end: string | null;
   }

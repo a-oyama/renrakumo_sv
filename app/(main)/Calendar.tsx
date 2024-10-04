@@ -1,3 +1,5 @@
+
+import { useCallback, useState, useEffect } from "react"
 import FullCalendar from "@fullcalendar/react"
 // 月カレンダー
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -9,20 +11,36 @@ import allLocales from '@fullcalendar/core/locales-all'
 // スマホは長押し(selectLongPressDelay)
 import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
-import { EventClickArg } from "@fullcalendar/core/index.js"
+import { EventClickArg, EventApi } from "@fullcalendar/core/index.js"
 // イベント取得
-//import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
-import { createEventId } from "@/utils/supabase/event"
-import { useCallback, useState } from "react"
-import { EventApi } from "@fullcalendar/core/index.js"
+import { Event } from "@/types"
+import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
+import { getAllEvents } from "@/utils/supabase/event"
+
+
+
+
+
 
 const Calendar = () => {
+  const [events, setEvents] = useState<any>([])
+
+
+  useEffect(() => {
+    const getAllEvents = async () => {
+      const events = await getAllEvents()
+      setEvents(events)
+      console.log(events)
+    }
+  }, [])
+  
+
   // イベントオブジェクトの取得(予定データが初期化＆変更時に取得)
-  const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
+/*   const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
   const handleEvents = useCallback((events: EventApi[]) => {
     console.log("events:", events);  // 確認用
     setCurrentEvents(events);
-  }, []);
+  }, []); */
 
 // 予定の入力(promit()でダイアログ表示,trimで表示調整,
 // calendarApi = selectInfo.view.calendar)
@@ -37,8 +55,8 @@ const Calendar = () => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-//        allDay: selectInfo.allDay,
-        allDay: true,
+        allDay: selectInfo.allDay,
+//        allDay: true,
       });
     
     }
