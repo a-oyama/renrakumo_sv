@@ -1,16 +1,6 @@
 import { EventInput } from "@fullcalendar/core/index.js";
 import { createClient } from "./client";
 
-export const  getAllEvents = async () => {
-
-  const supabase = createClient()
-  const events = await supabase.from("events")
-  .select("*");
-  return events.data;
-};
-
-
-
 
 let eventGuid = 0;
 const todayStr = new Date().toISOString().replace(/T.*$/, "");  // 今日の日付をYYYY-MM-DD形式にする
