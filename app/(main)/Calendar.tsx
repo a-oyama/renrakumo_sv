@@ -1,6 +1,6 @@
 
 import { useCallback, useState, useEffect } from "react"
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/client"
 
 
 import FullCalendar from "@fullcalendar/react"
@@ -16,72 +16,76 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg, EventApi } from "@fullcalendar/core/index.js"
 // イベント取得
-import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
+//import { INITIAL_EVENTS, createEventId } from "@/utils/supabase/event"
 
 
 const Calendar = () => {
 
-  //const supabase = createClient()
+  const supabase = createClient()
+  const [events, setEvents] = useState<EventInit[]>([]);
 
-  // イベントオブジェクトの取得(予定データが初期化＆変更時に取得)
-  const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
-  const handleEvents = useCallback((events: EventApi[]) => {
-    console.log("events:", events);  // 確認用
-    setCurrentEvents(events);
-  }, []);
+  // Supabase からデータを取得
+  const fetchEvents = async () => {
+    const { data, error } = await supabase.from('events').select('*');
+    if (error) console.error(error);
+    else setEvents(data);
+  };
 
-// 予定の入力(promit()でダイアログ表示,trimで表示調整,
-// calendarApi = selectInfo.view.calendar)
-
-  const handleDateSelect = useCallback((selectInfo: DateSelectArg) => {
-    const title = prompt("イベント名を入力してください")?.trim();
+  // イベント登録
+  const handleDateSelect = async (selectInfo: DateSelectArg) => {
+    const title = prompt('イベントのタイトルを入力してください');
     const calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
 
     if (title) {
-
-      calendarApi.addEvent({
-        event_id: createEventId(),
+      const newEvent = {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-//        allDay: true,
-      });
-    }
-  },
-[]);
+      };
 
-// 予定の削除(Y/Nをwindow.confirm())
-const handleEventClick = useCallback((clickInfo: EventClickArg) => {
-  if (
-    window.confirm(`このイベント「${clickInfo.event.title}」を削除しますか`)
-  ) {
-    clickInfo.event.remove();
-  }
-}, []);
+      const { data, error } = await supabase.from('events').insert([newEvent]);
+      if (error) {
+        console.error(error);
+      } else {
+        calendarApi.addEvent({
+          id: data[0].id,  // Supabase で生成されたIDを使用
+          ...newEvent,
+        });
+      }
+    }
+  };
+
+  // イベント削除
+  const handleEventClick = async (clickInfo: EventClickArg) => {
+    if (window.confirm(`'${clickInfo.event.title}' を削除しますか？`)) {
+      const { error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', clickInfo.event.id);
+
+      if (error) {
+        console.error(error);
+      } else {
+        clickInfo.event.remove();
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   return (
-    <div>
-      <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        initialEvents={INITIAL_EVENTS}
-        height="auto"
-        locales={allLocales}
-        locale="jp"
-        dayCellContent={(event: DayCellContentArg) =>
-          (event.dayNumberText = event.dayNumberText.replace("日", ""))
-        }
-        selectable={true}
-        select={handleDateSelect}
-        editable={true}
-        eventClick={handleEventClick}
-         />
-      </div>
-    </div>
-  )
+    <FullCalendar
+      plugins={[dayGridPlugin, interactionPlugin]}
+      initialView="dayGridMonth"
+      selectable={true}
+      events={events}
+      select={handleDateSelect}
+      eventClick={handleEventClick}
+    />
+  );
+
 }
 
 
