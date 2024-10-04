@@ -10,9 +10,10 @@ export const createEventId = () => String(eventGuid++);
 export const INITIAL_EVENTS: EventInput[] = [
    {
     event_id: createEventId(),
-    title: "All-day event",
+    title: "勉強",
     start: todayStr,
   },
+  
   {
     event_id: createEventId(),
     title: "Timed event",

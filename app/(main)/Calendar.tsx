@@ -37,8 +37,8 @@ const Calendar = () => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-//        allDay: selectInfo.allDay,
-        allDay: true,
+        allDay: selectInfo.allDay,
+//        allDay: true,
       });
     
     }
