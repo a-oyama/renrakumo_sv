@@ -20,23 +20,24 @@ import { EventClickArg } from "@fullcalendar/core/index.js"
 
 const Calendar = () => {
   const supabase = createClient()
+  // 状態の確認
   const [events, setEvents] = useState<EventInit[]>([]);
   
+  // 初期化
+useEffect(() => {
+  fetchEvents();
+}, []);
 
   // Supabase からデータを取得
   const fetchEvents = async () => {
     const { data, error } = await supabase
     .from('events')
     .select('*');
+
     if (error)
        console.error(error);
        else setEvents(data);
 };
-
-// 初回レンダリング時にイベントデータを取得
-useEffect(() => {
-  fetchEvents();
-}, []);
 
   // イベント登録
   const handleDateSelect = async (selectInfo: DateSelectArg) => {
@@ -108,8 +109,6 @@ useEffect(() => {
     }
   };
 
-
-
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
@@ -125,10 +124,8 @@ useEffect(() => {
       select={handleDateSelect}
       eventClick={handleEventClick}
       editable={true}
-//      allDaySlot={true}  // 終日イベントの表示スロットを有効化
-//      displayEventTime={false}  // 時間の表示を無効化
-//      selectMirror={true}
-//      dayMaxEvents={true}
+      displayEventTime={false}  // 時間の表示を無効化し終日とする
+      dayMaxEvents={true}
     />
   );
 
