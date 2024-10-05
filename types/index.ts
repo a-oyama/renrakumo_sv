@@ -13,4 +13,5 @@ export interface ProfileType {
     title: string;
     start: string;
     end: string | null;
+    allDay: string;
   }

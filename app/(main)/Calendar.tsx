@@ -21,9 +21,6 @@ import { EventClickArg } from "@fullcalendar/core/index.js"
 const Calendar = () => {
   const supabase = createClient()
   const [events, setEvents] = useState<EventInit[]>([]);
-//  const [events, setEvents] = useState([]);  // カレンダーのイベント状態管理
-//  const calendarRef = useRef<CalendarApi>(null);
-
   
 
   // Supabase からデータを取得
@@ -59,22 +56,38 @@ useEffect(() => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-//        allDay: selectInfo.allDay ?? true,
+//        allDay: true,
       };
 
       const { data, error } = await supabase
       .from('events')
       .insert([newEvent]);
 
-      if (error) {
-//  if (error || !data || data.length === 0) {
+/*       if (error) {
         console.error('データの挿入に失敗しました:', error)
       } else {
+
         calendarApi.addEvent({
           id: data[0].id,  // Supabase で生成されたIDを使用
           ...newEvent,
-        });
+        }); */
 
+        // if文でdataがnullでないことを確認
+         if (error || !data || data.length === 0) { // data の存在を確認
+          console.error('データの挿入に失敗しました:', error);
+        } else {
+          calendarApi.addEvent({
+            id: data[0].id,
+            ...newEvent,
+          });
+/*           if (error || !data || data.length === 0) {
+            console.error('データの挿入に失敗しました:', error);
+          } else {
+            // `events` ステートを更新して、新しいイベントを追加する
+            setEvents((prevEvents) => [
+              ...prevEvents,
+              { id: data[0].id, ...newEvent },
+            ]); */
       }
     }
   };
