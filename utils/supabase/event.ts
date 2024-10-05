@@ -8,8 +8,8 @@ export const createEventId = () => String(eventGuid++);
 
 
 // supabaseテーブルから取得できるようにする
-export const INITIAL_EVENTS: EventInput[] = [
-   {
+/* export const INITIAL_EVENTS: EventInput[] = [
+    {
      event_id: createEventId(),
     title: "勉強",
     start: todayStr,
@@ -20,4 +20,4 @@ export const INITIAL_EVENTS: EventInput[] = [
     title: "Timed event",
     start: todayStr + "T12:00:00",  // 時刻はTで結ぶ
   }, 
-];
+]; */
