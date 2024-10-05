@@ -1,8 +1,8 @@
 
-import { useCallback, useState, useEffect } from "react"
+import { useCallback, useState, useEffect, useRef } from "react"
 import { createClient } from "@/utils/supabase/client"
 
-import FullCalendar from "@fullcalendar/react"
+import FullCalendar, { CalendarApi } from '@fullcalendar/react'
 // 月カレンダー
 import dayGridPlugin from '@fullcalendar/daygrid'
 // 日を消す
@@ -16,9 +16,15 @@ import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
 
 
+
+
 const Calendar = () => {
   const supabase = createClient()
   const [events, setEvents] = useState<EventInit[]>([]);
+//  const [events, setEvents] = useState([]);  // カレンダーのイベント状態管理
+//  const calendarRef = useRef<CalendarApi>(null);
+
+  
 
   // Supabase からデータを取得
   const fetchEvents = async () => {
@@ -28,28 +34,32 @@ const Calendar = () => {
     if (error)
        console.error(error);
        else setEvents(data);
-// else setEvents(data.map(event => ({
-//  ...event,
-//  allDay: event.allDay,  // 終日フラグを反映
-//})));
 };
+
+// 初回レンダリング時にイベントデータを取得
+useEffect(() => {
+  fetchEvents();
+}, []);
+
   // イベント登録
   const handleDateSelect = async (selectInfo: DateSelectArg) => {
+    
+    if (!selectInfo) {
+      console.error('selectInfo が null です。');
+      return;
+    }
+
     const title = prompt('イベントのタイトルを入力してください');
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
 
     if (title) {
 
-//      const isAllDay = selectInfo.allDay;
-
       const newEvent = {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-//        allDay: selectInfo.allDay,
-//        allDay: isAllDay,  // 終日イベントのフラグを設定
-
+//        allDay: selectInfo.allDay ?? true,
       };
 
       const { data, error } = await supabase
@@ -57,12 +67,14 @@ const Calendar = () => {
       .insert([newEvent]);
 
       if (error) {
-        console.error(error);
+//  if (error || !data || data.length === 0) {
+        console.error('データの挿入に失敗しました:', error)
       } else {
         calendarApi.addEvent({
           id: data[0].id,  // Supabase で生成されたIDを使用
           ...newEvent,
         });
+
       }
     }
   };
@@ -83,9 +95,7 @@ const Calendar = () => {
     }
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+
 
   return (
     <FullCalendar
@@ -103,6 +113,9 @@ const Calendar = () => {
       eventClick={handleEventClick}
       editable={true}
 //      allDaySlot={true}  // 終日イベントの表示スロットを有効化
+//      displayEventTime={false}  // 時間の表示を無効化
+//      selectMirror={true}
+//      dayMaxEvents={true}
     />
   );
 
