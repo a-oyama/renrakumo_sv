@@ -8,17 +8,17 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
 
-import { useRouter } from "next/navigation"
 
 const Calendar = () => {
-  const supabase = createClient()
-  const router = useRouter()
-  const [events, setEvents] = useState<EventInit[]>([]);
-  
+  const supabase = createClient() //supabase連携
+  const [events, setEvents] = useState<EventInit[]>([]); //状態管理
+
+// useEffectでデータ管理
 useEffect(() => {
   fetchEvents();
 }, []);
 
+// supabase_eventテーブル取得
   const fetchEvents = async () => {
     const { data, error } = await supabase
     .from('events')
@@ -26,15 +26,10 @@ useEffect(() => {
 
     if (error)
        console.error(error);
-       else setEvents(data);
+    else setEvents(data);
 };
 
   const handleDateSelect = async (selectInfo: DateSelectArg) => {
-    
-    if (!selectInfo) {
-      console.error('selectInfo が null です。');
-      return;
-    }
 
     const title = prompt('イベントのタイトルを入力してください');
     const calendarApi = selectInfo.view.calendar;
@@ -51,7 +46,6 @@ useEffect(() => {
       const { data, error } = await supabase
       .from('events')
       .insert([newEvent]);
-
 
          if (error || !data || data.length === 0) { // if文でundefind防止
           console.error('データの挿入に失敗しました:', error);
@@ -92,13 +86,10 @@ useEffect(() => {
       }   
       select={handleDateSelect}
       eventClick={handleEventClick}
-      editable={true}
       displayEventTime={false}
-      dayMaxEvents={true}
       businessHours={true}
     />
   );
-
 }
 
 export default Calendar;
