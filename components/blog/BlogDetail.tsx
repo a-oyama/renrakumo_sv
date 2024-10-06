@@ -65,6 +65,33 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
           {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
         </div>
         <div className="font-bold text-2xl">{blog.title}</div>
+        
+        <div className="leading-relaxed break-words whitespace-pre-wrap">
+          {blog.content}
+        </div>
+
+        {isMyBlog && (
+          <div className="flex items-center justify-end space-x-3">
+            <Link href={`/blog/${blog.id}/edit`}>
+            
+              <FilePenLine className="w-6 h-6" />
+
+            </Link>
+            <button
+              className="cursor-pointer"
+              onClick={handleDelete}
+              disabled={isPending}
+            >
+              {isPending ? (
+                <Loader2 className="h-6 w-6 animate-spin text-red-500" />
+              ) : (
+                
+                <Trash2 className="w-6 h-6 text-red-500" />
+              )}
+            </button>
+          </div>
+        )}
+
         <div>
           <Image
             src={blog.image_url || "/noImage.png"}
@@ -75,28 +102,6 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
             priority
           />
         </div>
-        <div className="leading-relaxed break-words whitespace-pre-wrap">
-          {blog.content}
-        </div>
-
-        {isMyBlog && (
-          <div className="flex items-center justify-end space-x-3">
-            <Link href={`/blog/${blog.id}/edit`}>
-              <FilePenLine className="w-6 h-6" />
-            </Link>
-            <button
-              className="cursor-pointer"
-              onClick={handleDelete}
-              disabled={isPending}
-            >
-              {isPending ? (
-                <Loader2 className="h-6 w-6 animate-spin text-red-500" />
-              ) : (
-                <Trash2 className="w-6 h-6 text-red-500" />
-              )}
-            </button>
-          </div>
-        )}
 
         <FormError message={error} />
       </div>

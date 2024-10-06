@@ -105,7 +105,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
 
   return (
     <div className="mx-auto max-w-screen-md">
-      <div className="font-bold text-xl text-center mb-10">ブログ編集</div>
+      <div className="font-bold text-xl text-center mb-10">記事を編集</div>
 
       <div className="mb-5">
         <ImageUploading
@@ -159,7 +159,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
                       onImageUpdate(0)
                     }}
                   >
-                    画像を変更
+                    添付画像
                   </Button>
                 </div>
               )}
