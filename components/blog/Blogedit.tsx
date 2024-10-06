@@ -19,14 +19,14 @@ import { Loader2 } from "lucide-react"
 import { BlogSchema } from "@/schemas"
 import { editBlog } from "@/actions/blog"
 import { useRouter } from "next/navigation"
-import { BlogType } from "@/types"
+import { KijiType } from "@/types"
 import ImageUploading, { ImageListType } from "react-images-uploading"
 import toast from "react-hot-toast"
 import Image from "next/image"
 import FormError from "@/components/auth/FormError"
 
 interface BlogEditProps {
-  blog: BlogType
+  blog: KijiType
 }
 
 const BlogEdit = ({ blog }: BlogEditProps) => {
@@ -79,7 +79,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
           return
         }
 
-        toast.success("ブログを編集しました")
+        toast.success("記事を編集しました")
         router.push(`/blog/${blog.id}`)
         router.refresh()
       } catch (error) {

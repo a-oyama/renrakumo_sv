@@ -17,7 +17,7 @@ export interface ProfileType {
   }
 
   // 連絡記事
-  export interface BlogType {
+  export interface KijiType {
     id: string
     title: string
     content: string

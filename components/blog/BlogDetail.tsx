@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { BlogType } from "@/types"
+import { KijiType } from "@/types"
 import { format } from "date-fns"
 import { FilePenLine, Loader2, Trash2 } from "lucide-react"
 import FormError from "@/components/auth/FormError"
@@ -11,8 +11,8 @@ import Link from "next/link"
 import { deleteBlog } from "@/actions/blog"
 import toast from "react-hot-toast"
 
-interface BlogDetailProps {
-  blog: BlogType & {
+interface KijiDetailProps {
+  blog: KijiType & {
     profiles: {
       name: string
       avatar_url: string | null
@@ -22,7 +22,7 @@ interface BlogDetailProps {
   isMyBlog: boolean
 }
 
-const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
+const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
@@ -47,7 +47,7 @@ const BlogDetail = ({ blog, isMyBlog }: BlogDetailProps) => {
         return
       }
 
-      toast.success("ブログを削除しました")
+      toast.success("記事を削除しました")
        router.push("/")
        router.refresh()
      } catch (error) {

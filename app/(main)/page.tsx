@@ -13,8 +13,8 @@ const MainPage = () => {
       <Calendar />
 
       <div className="py-6">
-      <h2 className="text-xl font-bold border-b-2 border-gray-400 pb-2 w-4/4">
-        連絡事項
+        <h2 className="text-xl font-bold border-b-2 border-gray-400 pb-2 w-4/4">
+          連絡事項
         </h2>
       </div>
 

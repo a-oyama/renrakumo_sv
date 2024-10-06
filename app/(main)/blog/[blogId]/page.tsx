@@ -33,7 +33,7 @@ const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
     .single()
 
   if (!blogData) {
-    return <div className="text-center">ブログが存在しません</div>
+    return <div className="text-center">記事が存在しません</div>
   }
 
   // ログインユーザーがブログ作成者かどうか
