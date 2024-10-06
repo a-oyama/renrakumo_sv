@@ -59,3 +59,8 @@ export const PasswordSchema = z
       message: "メールアドレスを入力してください",
     }),
   })
+
+  export const RenrakuSchema = z.object({
+    title: z.string().min(1, { message: "タイトルを入力してください" }),
+    content: z.string().min(1, { message: "内容を入力してください" }),
+  })
