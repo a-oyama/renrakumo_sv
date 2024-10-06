@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
-import { RenrakuSchema } from "@/schemas"
+import { BlogSchema } from "@/schemas"
 import { newBlog } from "@/actions/blog"
 import { useRouter } from "next/navigation"
 import ImageUploading, { ImageListType } from "react-images-uploading"
@@ -24,18 +24,18 @@ import toast from "react-hot-toast"
 import Image from "next/image"
 import FormError from "@/components/auth/FormError"
 
-interface RenrakuNewProps {
+interface BlogNewProps {
   userId: string
 }
 
-const RenrakuNew = ({ userId }: RenrakuNewProps) => {
+const BlogNew = ({ userId }: BlogNewProps) => {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
   const [imageUpload, setImageUpload] = useState<ImageListType>([])
 
-  const form = useForm<z.infer<typeof RenrakuSchema>>({
-    resolver: zodResolver(RenrakuSchema),
+  const form = useForm<z.infer<typeof BlogSchema>>({
+    resolver: zodResolver(BlogSchema),
     defaultValues: {
       title: "",
       content: "",
@@ -43,7 +43,7 @@ const RenrakuNew = ({ userId }: RenrakuNewProps) => {
   })
 
   // 送信
-  const onSubmit = (values: z.infer<typeof RenrakuSchema>) => {
+  const onSubmit = (values: z.infer<typeof BlogSchema>) => {
     setError("")
 
     let base64Image: string | undefined
@@ -65,7 +65,7 @@ const RenrakuNew = ({ userId }: RenrakuNewProps) => {
           return
         }
 
-        toast.success("ブログを投稿しました")
+        toast.success("連絡を送信しました")
         router.push("/")
         router.refresh()
       } catch (error) {
@@ -207,4 +207,4 @@ const RenrakuNew = ({ userId }: RenrakuNewProps) => {
   )
 }
 
-export default RenrakuNew
+export default BlogNew

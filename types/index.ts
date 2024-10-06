@@ -15,3 +15,14 @@ export interface ProfileType {
     end: string | null;
     allDay: string;
   }
+
+  // 連絡記事
+  export interface BlogType {
+    id: string
+    title: string
+    content: string
+    user_id: string
+    image_url: string | null
+    updated_at: string
+    created_at: string
+  }
