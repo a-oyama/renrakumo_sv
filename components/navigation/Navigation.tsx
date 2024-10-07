@@ -39,7 +39,7 @@ const Navigation = ({ user }: NavigationProps) => {
         <div className="text-sm font-bold">
           {user ? (
             <div className="flex items-center space-x-5">
-              <Link href="/blog/new">
+              <Link href="/renraku/new">
                 <div>投稿</div>
               </Link>
 
