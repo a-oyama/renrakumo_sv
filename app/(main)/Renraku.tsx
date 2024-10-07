@@ -2,11 +2,11 @@
 
 import { createClient } from "@/utils/supabase/client"
 import { Suspense } from "react"
-import BlogItem from "@/components/blog/BlogItem"
+import RenrakuList from "@/components/renraku/RenrakuList"
 import Loading from "@/app/loading"
 
 // メインページ
-const Renraku = async () => {
+const RenrakuPage = async () => {
   const supabase = createClient()
 
   // ブログ一覧取得
@@ -37,4 +37,4 @@ const Renraku = async () => {
   )
 }
 
-export default Renraku;
+export default RenrakuPage;

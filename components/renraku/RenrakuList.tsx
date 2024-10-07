@@ -15,7 +15,7 @@ interface KijiListProps {
   }
 }
 
-const KijiList = ({ blog }: KijiListProps) => {
+const RenrakuList = ({ blog }: KijiListProps) => {
 
   return (
     <div className="break-words border rounded py-2">
@@ -42,4 +42,4 @@ const KijiList = ({ blog }: KijiListProps) => {
   )
 }
 
-export default KijiList
+export default RenrakuList;

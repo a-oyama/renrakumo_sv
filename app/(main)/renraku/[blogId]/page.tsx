@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server"
 import { Suspense } from "react"
-import BlogDetail from "@/components/blog/BlogDetail"
+import BlogDetail from "@/components/renraku/BlogDetail"
 import Loading from "@/app/loading"
 
 interface BlogDetailPageProps {

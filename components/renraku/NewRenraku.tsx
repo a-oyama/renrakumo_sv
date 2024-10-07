@@ -16,34 +16,42 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
-import { BlogSchema } from "@/schemas"
-import { newBlog } from "@/actions/blog"
+
+import { newRenraku } from "@/actions/renraku"
 import { useRouter } from "next/navigation"
+// 画像アップ機能
 import ImageUploading, { ImageListType } from "react-images-uploading"
+// チェック機能
 import toast from "react-hot-toast"
+import { RenrakuSchema } from "@/schemas"
+
 import Image from "next/image"
 import FormError from "@/components/auth/FormError"
 
-interface BlogNewProps {
+interface NewRenrakuProps {
   userId: string
 }
 
-const BlogNew = ({ userId }: BlogNewProps) => {
+
+const NewRenraku = ({ userId }: NewRenrakuProps) => {
+
+  //  使用コンポーネント
   const router = useRouter()
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
   const [imageUpload, setImageUpload] = useState<ImageListType>([])
 
-  const form = useForm<z.infer<typeof BlogSchema>>({
-    resolver: zodResolver(BlogSchema),
+  // title, contentのチェック
+  const form = useForm<z.infer<typeof RenrakuSchema>>({
+    resolver: zodResolver(RenrakuSchema),
     defaultValues: {
       title: "",
       content: "",
     },
   })
 
-  // 送信
-  const onSubmit = (values: z.infer<typeof BlogSchema>) => {
+  // フォーム入力内容送信
+  const onSubmit = (values: z.infer<typeof RenrakuSchema>) => {
     setError("")
 
     let base64Image: string | undefined
@@ -54,12 +62,13 @@ const BlogNew = ({ userId }: BlogNewProps) => {
           base64Image = imageUpload[0].dataURL
         }
 
-        const res = await newBlog({
+        const res = await newRenraku({
           ...values,
           base64Image,
           userId,
         })
 
+        // 送信処理成功判定
         if (res?.error) {
           setError(res.error)
           return
@@ -68,6 +77,7 @@ const BlogNew = ({ userId }: BlogNewProps) => {
         toast.success("連絡を送信しました")
         router.push("/")
         router.refresh()
+
       } catch (error) {
         console.error(error)
         setError("エラーが発生しました")
@@ -89,11 +99,13 @@ const BlogNew = ({ userId }: BlogNewProps) => {
     setImageUpload(imageList)
   }
 
+  // 画面
   return (
     <div className="mx-auto max-w-screen-md">
-      <div className="font-bold text-xl text-center mb-10">ブログ投稿</div>
+      <div className="font-bold text-xl text-center mb-10">記事を投稿</div>
 
       <div className="mb-5">
+
         <ImageUploading
           value={imageUpload}
           onChange={onChangeImage}
@@ -207,4 +219,4 @@ const BlogNew = ({ userId }: BlogNewProps) => {
   )
 }
 
-export default BlogNew
+export default NewRenraku;

@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { Suspense } from "react"
-import BlogEdit from "@/components/blog/Blogedit"
+import BlogEdit from "@/components/renraku/Blogedit"
 import Loading from "@/app/loading"
 
 interface BlogEditPageProps {

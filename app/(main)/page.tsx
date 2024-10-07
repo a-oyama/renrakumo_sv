@@ -1,9 +1,11 @@
 // メインページ
 'use client'
 
-import React from 'react';
-import Calendar from './Calendar'; // Calendar コンポーネントをインポート
-import Renraku from './Renraku'; // Renraku コンポーネントをインポート
+import React from 'react'
+// Calendarインポート
+import Calendar from './Calendar'
+// Renrakuインポート
+import Renraku from './Renraku'
 
 
 const MainPage = () => {

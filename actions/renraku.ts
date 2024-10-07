@@ -1,18 +1,24 @@
+// 新連絡を投稿
+
 "use server"
 
-import { BlogSchema } from "@/schemas"
+
 import { createClient } from "@/utils/supabase/server"
+// toastarで入力審査
 import { z } from "zod"
+import { RenrakuSchema } from "@/schemas"
+
 import { v4 as uuidv4 } from "uuid"
 import { decode } from "base64-arraybuffer"
 
-interface newBlogProps extends z.infer<typeof BlogSchema> {
+interface newRenrakuProps extends z.infer<typeof RenrakuSchema> {
   base64Image: string | undefined
   userId: string
 }
 
-// ブログ投稿
-export const newBlog = async (values: newBlogProps) => {
+
+// 連絡投稿
+export const newRenraku = async (values: newRenrakuProps) => {
   try {
     const supabase = createClient()
 
@@ -21,6 +27,7 @@ export const newBlog = async (values: newBlogProps) => {
     if (values.base64Image) {
       const matches = values.base64Image.match(/^data:(.+);base64,(.+)$/)
 
+      // 未定義を防止
       if (!matches || matches.length !== 3) {
         return { error: "無効な画像データです" }
       }
@@ -31,9 +38,8 @@ export const newBlog = async (values: newBlogProps) => {
       // 拡張子を取得
       const fileExt = contentType.split("/")[1] // 例: "png"
 
-      // ファイル名を生成
+      // ファイル名を生成-supabaseにアップロード
       const fileName = `${uuidv4()}.${fileExt}`
-
       const { error: storageError } = await supabase.storage
         .from("blogs")
         .upload(`${values.userId}/${fileName}`, decode(base64Data), {
@@ -44,7 +50,7 @@ export const newBlog = async (values: newBlogProps) => {
         return { error: storageError.message }
       }
 
-      // 画像のURLを取得
+      // 画像のURLをsupabaseから取得
       const { data: urlData } = await supabase.storage
         .from("blogs")
         .getPublicUrl(`${values.userId}/${fileName}`)
@@ -52,7 +58,7 @@ export const newBlog = async (values: newBlogProps) => {
       image_url = urlData.publicUrl
     }
 
-    // ブログ新規作成
+    // 連絡の新規作成-supabase更新
     const { error: insertError } = await supabase
     .from("blogs")
     .insert({
@@ -73,16 +79,15 @@ export const newBlog = async (values: newBlogProps) => {
 }
 
 
-
-interface editBlogProps extends z.infer<typeof BlogSchema> {
+interface editRenrakuProps extends z.infer<typeof RenrakuSchema> {
   blogId: string
   imageUrl: string | null
   base64Image: string | undefined
   userId: string
 }
 
-// ブログ編集
-export const editBlog = async (values: editBlogProps) => {
+// 連絡事項の編集
+export const editRenraku = async (values: editRenrakuProps) => {
   try {
     const supabase = createClient()
 
@@ -152,23 +157,28 @@ export const editBlog = async (values: editBlogProps) => {
 }
 
 
-interface deleteBlogProps {
+
+
+interface deleteRenrakuProps {
   blogId: string
   imageUrl: string | null
   userId: string
 }
 
 // ブログ削除
-export const deleteBlog = async ({
+export const deleteRenraku = async ({
   blogId,
   imageUrl,
   userId,
-}: deleteBlogProps) => {
+}: deleteRenrakuProps) => {
   try {
     const supabase = createClient()
 
     // ブログ削除
-    const { error } = await supabase.from("blogs").delete().eq("id", blogId)
+    const { error } = await supabase
+    .from("blogs")
+    .delete()
+    .eq("id", blogId)
 
     if (error) {
       return { error: error.message }
@@ -182,7 +192,9 @@ export const deleteBlog = async ({
     const fileName = imageUrl.split("/").slice(-1)[0]
 
     // 画像を削除
-    await supabase.storage.from("blogs").remove([`${userId}/${fileName}`])
+    await supabase.storage
+    .from("blogs")
+    .remove([`${userId}/${fileName}`])
   } catch (err) {
     console.error(err)
     return { error: "エラーが発生しました" }
