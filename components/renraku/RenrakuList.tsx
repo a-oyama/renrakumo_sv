@@ -1,13 +1,13 @@
 "use client"
 
-import { KijiType } from "@/types"
+import { RenrakuType } from "@/types"
 import { format } from "date-fns"
 import Image from "next/image"
 import Link from "next/link"
 
-interface KijiListProps {
+interface RenrakuListProps {
 
-  blog: KijiType & {
+  blog: RenrakuType & {
     profiles: {
     name: string
     avatar_url: string
@@ -15,10 +15,12 @@ interface KijiListProps {
   }
 }
 
-const RenrakuList = ({ blog }: KijiListProps) => {
+// 画面
+const RenrakuList = ({ blog }: RenrakuListProps) => {
 
   return (
     <div className="break-words border rounded py-2">
+
       <Link href={`blog/${blog.id}`}>
       <div className="p-3 space-y-2">
         <div className="text-gray-500 text-xs">
@@ -38,6 +40,7 @@ const RenrakuList = ({ blog }: KijiListProps) => {
         </div>
       </div>
       </Link>
+      
     </div>
   )
 }

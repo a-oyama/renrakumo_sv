@@ -17,7 +17,7 @@ export interface ProfileType {
   }
 
   // 連絡記事
-  export interface KijiType {
+  export interface RenrakuType {
     id: string
     title: string
     content: string
