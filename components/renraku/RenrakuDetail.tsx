@@ -2,27 +2,27 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { KijiType } from "@/types"
+import { RenrakuType } from "@/types"
 import { format } from "date-fns"
 import { FilePenLine, Loader2, Trash2 } from "lucide-react"
 import FormError from "@/components/auth/FormError"
 import Image from "next/image"
 import Link from "next/link"
-import { deleteBlog } from "@/actions/blog"
+import { deleteRenraku } from "@/actions/renraku"
 import toast from "react-hot-toast"
 
-interface KijiDetailProps {
-  blog: KijiType & {
+interface RenrakuDetailProps {
+  renraku: RenrakuType & {
     profiles: {
       name: string
       avatar_url: string | null
       introduce: string | null
     }
   }
-  isMyBlog: boolean
+  isMyRenraku: boolean
 }
 
-const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
+const RenrakuDetail = ({ renraku, isMyRenraku }: RenrakuDetailProps) => {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
@@ -36,10 +36,10 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
 
   startTransition(async () => {
     try {
-      const res = await deleteBlog({
-        blogId: blog.id,
-        imageUrl: blog.image_url,
-        userId: blog.user_id,
+      const res = await deleteRenraku({
+        blogId: renraku.id,
+        imageUrl: renraku.image_url,
+        userId: renraku.user_id,
       })
     
       if (res?.error) {
@@ -47,9 +47,10 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
         return
       }
 
-      toast.success("記事を削除しました")
+      toast.success("連絡記事を削除しました")
        router.push("/")
        router.refresh()
+
      } catch (error) {
        console.error(error)
        setError("エラーが発生しました")
@@ -62,17 +63,17 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
     <div className="grid grid-cols-3 gap-5">
       <div className="col-span-2 space-y-5">
         <div className="text-sm text-gray-500">
-          {format(new Date(blog.updated_at), "yyyy/MM/dd HH:mm")}
+          {format(new Date(renraku.updated_at), "yyyy/MM/dd HH:mm")}
         </div>
-        <div className="font-bold text-2xl">{blog.title}</div>
+        <div className="font-bold text-2xl">{renraku.title}</div>
         
         <div className="leading-relaxed break-words whitespace-pre-wrap">
-          {blog.content}
+          {renraku.content}
         </div>
 
-        {isMyBlog && (
+        {isMyRenraku && (
           <div className="flex items-center justify-end space-x-3">
-            <Link href={`/blog/${blog.id}/edit`}>
+            <Link href={`/renraku/${renraku.id}/edit`}>
             
               <FilePenLine className="w-6 h-6" />
 
@@ -94,7 +95,7 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
 
         <div>
           <Image
-            src={blog.image_url || "/noImage.png"}
+            src={renraku.image_url || "/noImage.png"}
             className="rounded object-cover"
             alt="image"
             width={768}
@@ -109,7 +110,7 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
       <div className="col-span-1">
         <div className="border rounded flex flex-col items-center justify-center space-y-2 p-5">
           <Image
-            src={blog.profiles.avatar_url || "/noImage.png"}
+            src={renraku.profiles.avatar_url || "/noImage.png"}
             className="rounded-full object-cover"
             alt="avatar"
             width={100}
@@ -117,12 +118,12 @@ const BlogDetail = ({ blog, isMyBlog }: KijiDetailProps) => {
             priority
           />
 
-          <div className="font-bold">{blog.profiles.name}</div>
-          <div className="text-sm">{blog.profiles.introduce}</div>
+          <div className="font-bold">{renraku.profiles.name}</div>
+          <div className="text-sm">{renraku.profiles.introduce}</div>
         </div>
       </div>
     </div>
   )
 }
 
-export default BlogDetail
+export default RenrakuDetail;

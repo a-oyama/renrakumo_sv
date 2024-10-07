@@ -16,39 +16,40 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
-import { BlogSchema } from "@/schemas"
-import { editBlog } from "@/actions/blog"
+import { RenrakuSchema } from "@/schemas"
+import { editRenraku } from "@/actions/renraku"
 import { useRouter } from "next/navigation"
-import { KijiType } from "@/types"
+import { RenrakuType } from "@/types"
 import ImageUploading, { ImageListType } from "react-images-uploading"
 import toast from "react-hot-toast"
 import Image from "next/image"
 import FormError from "@/components/auth/FormError"
 
-interface BlogEditProps {
-  blog: KijiType
+
+interface RenrakuEditProps {
+  renraku: RenrakuType
 }
 
-const BlogEdit = ({ blog }: BlogEditProps) => {
+const RenrakuEdit = ({ renraku }: RenrakuEditProps) => {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
   const [imageUpload, setImageUpload] = useState<ImageListType>([
     {
-      dataURL: blog.image_url || "/noImage.png",
+      dataURL: renraku.image_url || "/noImage.png",
     },
   ])
 
-  const form = useForm<z.infer<typeof BlogSchema>>({
-    resolver: zodResolver(BlogSchema),
+  const form = useForm<z.infer<typeof RenrakuSchema>>({
+    resolver: zodResolver(RenrakuSchema),
     defaultValues: {
-      title: blog.title,
-      content: blog.content,
+      title: renraku.title,
+      content: renraku.content,
     },
   })
 
   // 送信
-  const onSubmit = (values: z.infer<typeof BlogSchema>) => {
+  const onSubmit = (values: z.infer<typeof RenrakuSchema>) => {
     setError("")
 
     let base64Image: string | undefined
@@ -66,12 +67,12 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
           }
         }
 
-        const res = await editBlog({
+        const res = await editRenraku({
           ...values,
-          blogId: blog.id,
-          imageUrl: blog.image_url,
+          blogId: renraku.id,
+          imageUrl: renraku.image_url,
           base64Image,
-          userId: blog.user_id,
+          userId: renraku.user_id,
         })
 
         if (res?.error) {
@@ -80,7 +81,7 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
         }
 
         toast.success("記事を編集しました")
-        router.push(`/blog/${blog.id}`)
+        router.push(`/renraku/${renraku.id}`)
         router.refresh()
       } catch (error) {
         console.error(error)
@@ -221,4 +222,4 @@ const BlogEdit = ({ blog }: BlogEditProps) => {
   )
 }
 
-export default BlogEdit
+export default RenrakuEdit;
