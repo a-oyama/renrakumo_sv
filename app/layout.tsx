@@ -16,8 +16,8 @@ const mPlus1 = M_PLUS_1({
 
 export const metadata: Metadata = {
   title: {
-    template: "Supabase認証ブログ",
-    default: "Supabase認証ブログ",
+    template: "連絡網サイト",
+    default: "連絡網サイト",
   },
 }
 
@@ -49,7 +49,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
           <footer className="border-t py-2">
             <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©Renrakumo Present By Yamao.</div>
+              <div>©Create by OYAMAAA.</div>
             </div>
           </footer>
         </div>
