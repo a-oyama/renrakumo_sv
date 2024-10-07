@@ -30,7 +30,9 @@ const RenrakuPage = async () => {
       <div className="">
         {blogsData.map((blog) => {
           return <RenrakuList 
-          key={blog.id} blog={blog} />
+          /* key={blog.id} blog={blog} */
+          key={blog.id} renraku={blog}
+           />
         })}
       </div>
     </Suspense>
