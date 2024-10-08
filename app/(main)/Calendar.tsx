@@ -8,6 +8,13 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
 
+// カレンダー日マス設定
+const addDayClassNames = (arg: DayCellContentArg) => {
+  const day = arg.date.getDay();
+  if (day === 6) return ["saturday-cell"]; // 土曜
+  if (day === 0) return ["sunday-cell"];   // 日曜
+  return [];
+};
 
 const Calendar = () => {
   const supabase = createClient() //supabase連携
@@ -72,6 +79,8 @@ useEffect(() => {
     }
   };
 
+
+  // 画面
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
@@ -83,13 +92,16 @@ useEffect(() => {
       locale="jp"
       dayCellContent={(event: DayCellContentArg) =>
         (event.dayNumberText = event.dayNumberText.replace("日", ""))
-      }   
+      }// 日を消す
+      dayCellClassNames={addDayClassNames}//土日配色
       select={handleDateSelect}
       eventClick={handleEventClick}
       displayEventTime={false}
       businessHours={true}
+      
     />
   );
 }
+
 
 export default Calendar;

@@ -19,3 +19,18 @@ body,
     --foreground: #ededed; */
   }
 }
+
+/* FullCalendarのフォントサイズ */
+.fc-event-title {
+  font-size: 11px;
+}
+
+/* 土曜の配色 */
+.fc .saturday-cell {
+  background-color: #e8f5fd; /* 土曜日のセルを淡い青に */
+}
+
+/* 日曜の配色 */
+.fc .sunday-cell {
+  background-color: #fcd8de; /* 日曜日のセルを淡いピンクに */
+}
