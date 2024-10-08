@@ -60,7 +60,6 @@ useEffect(() => {
         } else {
           fetchEvents();
       }
-
           window.location.reload(); //処理終了時にリロード
     }
   };
