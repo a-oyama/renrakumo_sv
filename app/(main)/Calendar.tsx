@@ -48,6 +48,7 @@ useEffect(() => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
       };
 
       const { data, error } = await supabase
