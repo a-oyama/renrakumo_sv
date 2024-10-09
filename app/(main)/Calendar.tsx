@@ -8,6 +8,7 @@ import interactionPlugin from "@fullcalendar/interaction"
 import { DateSelectArg } from "@fullcalendar/core/index.js"
 import { EventClickArg } from "@fullcalendar/core/index.js"
 
+
 // カレンダー日マス設定
 const addDayClassNames = (arg: DayCellContentArg) => {
   const day = arg.date.getDay();
@@ -20,7 +21,7 @@ const Calendar = () => {
   const supabase = createClient() //supabase連携
   const [events, setEvents] = useState<EventInit[]>([]); //状態管理
 
-// useEffectでデータ管理
+// useEffectとfetchでsupabaseデータ取得
 useEffect(() => {
   fetchEvents();
 }, []);
@@ -55,12 +56,13 @@ useEffect(() => {
       .from('events')
       .insert([newEvent]);
 
-         if (error || !data || data.length === 0) { // if文でundefind防止
+      // 処理終了時にsupabase再度取得
+         if (error || !data ) { // if文でundefind防止
           console.error('データの挿入に失敗しました:', error);
         } else {
           fetchEvents();
       }
-          window.location.reload(); //処理終了時にリロード
+      window.location.reload(); //処理終了時にリロード
     }
   };
 
