@@ -1,4 +1,4 @@
-//supabaseからの画像取得許可
+//supabase連携
 //httpsとURLは分割しないとダメ！！！
 
 /** @type {import('next').NextConfig} */
