@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { LogOut } from "lucide-react"
 
+// いる or いない
 interface NavigationProps {
   user: User | null
 }
@@ -39,7 +40,7 @@ const Navigation = ({ user }: NavigationProps) => {
 
         {/* user引継ぎの場合にリンク表示 */}
         <div className="text-sm font-bold">
-          {user ? (
+          {user ? (/* ログインしている */
             <div className="flex items-center space-x-5">
               <Link href="/renraku/new">
                 <div>記事作成</div>
@@ -53,7 +54,7 @@ const Navigation = ({ user }: NavigationProps) => {
                 <LogOut className="h-5 w-5" />
               </div>
             </div>
-          ) : (
+          ) : (/* ログインしていない */
             <div className="flex items-center space-x-5">
               <Link href="/login">ログイン</Link>
               <Link href="/signup">利用登録</Link>
