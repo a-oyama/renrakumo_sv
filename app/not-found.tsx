@@ -1,6 +1,6 @@
 // データが存在しないときの画面(404 Not Found)
 
-"use client"
+"use client"//画面表示
 
 const NotFound = () => {
   return (
