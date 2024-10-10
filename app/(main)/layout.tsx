@@ -1,4 +1,5 @@
 // メインレイアウト
+// ReactNodeをchilerenで全ページに適用させる
 
 interface MainLayoutProps {
     children: React.ReactNode

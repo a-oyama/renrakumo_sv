@@ -26,6 +26,7 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
+// chilerenの中身:ReactNodeで様々な型
 interface RootLayoutProps {
   children: React.ReactNode
 }
@@ -39,13 +40,17 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
   const user = data?.user
 
 
+  // トースター，ナビゲーションを共通コンポーネントにする
   return (
     <html lang="ja">
 
       <body className={mPlus1.className}>
+
       <ToastProvider />
+
         <div className="flex min-h-screen flex-col">
         {/* Navigationにuserを渡す */}
+        
         <Navigation user={user} />
 
           <main className="flex-1">{children}</main>
@@ -58,7 +63,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
         </div>
       </body>
-      
+
     </html>
   )
 }

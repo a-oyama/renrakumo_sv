@@ -2,11 +2,11 @@
 
 "use client"
 
+import Link from "next/link"
 import { User } from "@supabase/supabase-js"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { LogOut } from "lucide-react"
-import Link from "next/link"
 
 interface NavigationProps {
   user: User | null
@@ -14,6 +14,7 @@ interface NavigationProps {
 
 // ナビゲーション(userを受け取りログイン状態に応じて表示リンク変更)
 const Navigation = ({ user }: NavigationProps) => {
+
   const router = useRouter()
   const supabase = createClient()
 
@@ -28,6 +29,7 @@ const Navigation = ({ user }: NavigationProps) => {
     router.refresh()
   }
 
+  // ヘッダー部
   return (
     <header className="border-b">
       <div className="mx-auto max-w-screen-lg px-2 py-5 flex items-center justify-between">
