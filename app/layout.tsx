@@ -1,12 +1,12 @@
 // 全ページ共通コンポーネント_ナビゲーション・フッター
 // 通知機能：Toastarもimportし共通コンポーネントにする
 
-import "./globals.css"
 import type { Metadata, Viewport } from "next"
-import { M_PLUS_1 } from "next/font/google"
 import { createClient } from "@/utils/supabase/server"
 import Navigation from "@/components/navigation/Navigation"
 import ToastProvider from "@/components/providers/ToastProvider"
+import { M_PLUS_1 } from "next/font/google"
+import "./globals.css"
 
 // フォント
 const mPlus1 = M_PLUS_1({
@@ -32,6 +32,8 @@ interface RootLayoutProps {
 
 // ルートレイアウト
 const RootLayout = async ({ children }: RootLayoutProps) => {
+
+  // supabase連携しユーザー取得
   const supabase = createClient()
   const { data } = await supabase.auth.getUser()
   const user = data?.user
@@ -39,6 +41,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <html lang="ja">
+
       <body className={mPlus1.className}>
       <ToastProvider />
         <div className="flex min-h-screen flex-col">
@@ -49,11 +52,13 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
           <footer className="border-t py-2">
             <div className="flex flex-col items-center justify-center text-sm space-y-5">
-              <div>©Create by OYAMAAA.</div>
+              <div>©Create by OYAMA.</div>
             </div>
           </footer>
+
         </div>
       </body>
+      
     </html>
   )
 }
