@@ -50,7 +50,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
         <div className="flex min-h-screen flex-col">
         {/* Navigationにuserを渡す */}
-        
+
         <Navigation user={user} />
 
           <main className="flex-1">{children}</main>
@@ -68,4 +68,4 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
   )
 }
 
-export default RootLayout
+export default RootLayout;

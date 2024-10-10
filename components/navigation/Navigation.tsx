@@ -40,7 +40,7 @@ const Navigation = ({ user }: NavigationProps) => {
 
         {/* user引継ぎの場合にリンク表示 */}
         <div className="text-sm font-bold">
-          
+
           {user ? (/* ログインしている */
             <div className="flex items-center space-x-5">
               <Link href="/renraku/new">
@@ -67,4 +67,4 @@ const Navigation = ({ user }: NavigationProps) => {
   )
 }
 
-export default Navigation
+export default Navigation;
